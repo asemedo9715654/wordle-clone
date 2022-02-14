@@ -163,7 +163,25 @@ const flipTile = () => {
     const guess = []
 
 
-    rowTiles.forEach((tile,index) => {})
+    rowTiles.forEach((tile,index) => {
+        guess.push({letter:tile.getAttribute('data'),color:'grey-overlay'})
+    })
+
+
+    guess.forEach((guess,index)=>{
+        if(guess.letter==wordle[index]){
+            guess.color='green-overlay'
+            checkWordle = checkWordle.replace(guess.letter,'')
+        }
+    })
+
+
+    guess.forEach(guess=>{
+        if(checkWordle.includes(guess.letter)){
+            guess.color = 'yellow-overlay'
+            checkWordle = checkWordle.replace(guess.letter,'')
+        }
+    })
 
 
     rowTiles.forEach((tile,index) => {
