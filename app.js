@@ -1,5 +1,6 @@
 const tileDisplay =document.querySelector('.tile-container')
 const keyboard =document.querySelector('.key-container')
+const messageDisplay =document.querySelector('.message-container')
 
 const wordle = 'SUPER';
 
@@ -31,7 +32,7 @@ const keys = [
     'B',
     'N',
     'M',
-    '<<',
+    '«',
 
 ]
 
@@ -47,11 +48,12 @@ const guessRows = [
 
 let currentRow = 0
 let currentTile = 0
+let isGameOver = false
 
 
 guessRows.forEach((guessRow,guessRowIndex) => {
     const rowelement  =document.createElement('div')
-    rowelement.setAttribute('id', 'guessRowIndex-'+guessRowIndex)
+    rowelement.setAttribute('id', 'guessRow-'+guessRowIndex)
     tileDisplay.append(rowelement)
 
 
@@ -66,8 +68,6 @@ guessRows.forEach((guessRow,guessRowIndex) => {
 })
 
 
-
-
 keys.forEach(key => {
     const buttonElement = document.createElement('button')
     buttonElement.textContent =key
@@ -77,12 +77,114 @@ keys.forEach(key => {
 })
 
 
-const handleClick = (key) => {
-    console.log('clicked',key)
+const handleClick = (letter) => {
+    console.log('clicked',letter)
+    if(letter==='«'){
+        deleteLetter()
+        console.log('delete letter')
+        return
+    }
+    if(letter==='ENTER'){
+        checkRow()
+        console.log('check the row')
+        return
+    }
+    addLetter(letter)
 }
 
 
 
 const addLetter = (letter) => {
-    document.getElementById()
+
+    if(currentTile<5 && currentRow<6){
+        var tile =document.getElementById('guessRow-'+currentRow+'-tile-'+currentTile)
+        tile.textContent = letter;
+        guessRows[currentRow][currentTile] = letter
+        tile.setAttribute('data',letter)
+        console.log('guessRows',guessRows)
+        currentTile++
+    }
+   
+}
+
+const deleteLetter = () => {
+    if(currentTile>0){
+        currentTile--
+        var tile =document.getElementById('guessRow-'+currentRow+'-tile-'+currentTile)
+        tile.textContent = '';
+        guessRows[currentRow][currentTile] = ''
+        tile.setAttribute('data','')
+    }
+   
+}
+
+const checkRow = () =>{
+    var guess =  guessRows[currentRow].join('')
+    if(currentTile===5){
+       
+        console.log('guess is'+guess, 'wordle'+wordle)
+        flipTile();
+        if(wordle===guess){
+            showMessage('Magnigicent!')
+            isGameOver = true
+            return
+        }else{
+            if(currentRow>=5){
+                isGameOver = false
+                showMessage('Game Over!')
+                return
+            }
+
+            if(currentRow<5){
+                currentRow++
+                currentTile = 0
+            }
+        }
+    }
+}
+
+const showMessage = (message) =>{
+   const messageElement = document.createElement('p')
+   messageElement.textContent = message
+   messageDisplay.append(messageElement)
+   setTimeout(()=>messageDisplay.removeChild(messageElement),2000)
+}
+
+
+const addColorToKey=(keyLetter,color)=>{
+    const key =document.getElementById(keyLetter)
+    key.classList.add(color)
+}
+
+
+const flipTile = () => {
+    const rowTiles = document.querySelector('#guessRow-'+currentRow).childNodes
+    let checkWordle = wordle
+    const guess = []
+
+
+    rowTiles.forEach((tile,index) => {})
+
+
+    rowTiles.forEach((tile,index) => {
+        const dataLetter = tile.getAttribute('data')
+
+
+        setTimeout(() => {
+            tile.classList.add('flip')
+            if(dataLetter==wordle[index]){
+                tile.classList.add('green-overlay')
+                addColorToKey(dataLetter,'green-overlay')
+            }else if(wordle.includes(dataLetter)){
+                tile.classList.add('yellow-overlay')
+                addColorToKey(dataLetter,'yellow-overlay')
+            }else{
+                tile.classList.add('grey-overlay')
+                addColorToKey(dataLetter,'grey-overlay')
+            }
+        },500*index)
+
+       
+
+    })
 }
