@@ -6,9 +6,17 @@ Wardle inicialmente criou o jogo para ele e seu parceiro jogarem, eventualmente 
 O jogo foi comprado pelo jornal New York Times em janeiro de 2022.
 
 
+### Start by cloning the repository:
+
+```
+$ git clone https://github.com/asemedo9715654/wordle-clone.git
+```
 
 ### Inicialização do jogo
-npm run start:backend
+```
+$ npm run start:backend
+```
+
 
 ## Nome do jogo 'Wordle'
 
