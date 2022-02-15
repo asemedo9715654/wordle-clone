@@ -21,6 +21,8 @@ Jogo de addivinhacao de palavras
 Canal do Youtube
 
 https://www.youtube.com/watch?v=mpby4HiElek
+
+
 https://pt.wikipedia.org/wiki/Wordle
 
 
