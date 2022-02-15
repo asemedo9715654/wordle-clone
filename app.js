@@ -1,8 +1,26 @@
+//const { response } = require("express");
+
 const tileDisplay =document.querySelector('.tile-container')
 const keyboard =document.querySelector('.key-container')
 const messageDisplay =document.querySelector('.message-container')
 
-const wordle = 'SUPER';
+let wordle;
+
+
+const getWord = () => {
+    fetch('http://localhost:8000/word')
+    .then(response => response.json())
+    .then(json => {
+        console.log(json)
+        wordle = json.toUpperCase()
+    })
+    .catch(error=>{
+        console.log(error)
+    })
+}
+
+
+getWord()
 
 const keys = [
     'Q',
@@ -190,16 +208,9 @@ const flipTile = () => {
 
         setTimeout(() => {
             tile.classList.add('flip')
-            if(dataLetter==wordle[index]){
-                tile.classList.add('green-overlay')
-                addColorToKey(dataLetter,'green-overlay')
-            }else if(wordle.includes(dataLetter)){
-                tile.classList.add('yellow-overlay')
-                addColorToKey(dataLetter,'yellow-overlay')
-            }else{
-                tile.classList.add('grey-overlay')
-                addColorToKey(dataLetter,'grey-overlay')
-            }
+            tile.classList.add(guess[index].color)
+            addColorToKey(guess[index].letter,guess[index].color)
+
         },500*index)
 
        
